@@ -1,3 +1,5 @@
+This read me is a summation of every module. For a more organized and concise view of this project, please refer to each readme.md within each seperate module. 
+
 Throughout the lab, various parts of code will be replaced with user specific information.
 These codes will be denoted with some variation of REPLACE_ME_VARIABLE
 DNSname=  http://mysfits-nlb-72c8cce5897e93c4.elb.us-east-1.amazonaws.com
@@ -235,16 +237,23 @@ After pasting, the line should look similar to below:
  
 Upload to S3
 To upload this file to your S3 hosted website, use the bucket name again that was created during Module 1, and run the following command:
+
 aws s3 cp ~/environment/aws-modern-application-workshop/module-2/web/index.html s3://INSERT-YOUR-BUCKET-NAME/index.html
+
 Open your website using the same URL used at the end of Module 1 in order to see your new Mythical Mysfits website, which is retrieving JSON data from your Flask API running within a docker container deployed to AWS Fargate!
+
 Module 2b: Automating Deployments using AWS Code Services
  
 Creating the CI/CD Pipeline
 Create a S3 Bucket for Pipeline Artifacts
 Now that you have a service up and running, you may think of code changes that you'd like to make to your Flask service. It would be a bottleneck for your development speed if you had to go through all of the same steps above every time you wanted to deploy a new feature to your service. That's where Continuous Integration and Continuous Delivery or CI/CD come in!
+
 In this module, you will create a fully managed CI/CD stack that will automatically deliver all of the code changes that you make to your code base to the service you created during the last module.
+
 First, we need to create another S3 bucket that will be used to store the temporary artifacts that are created in the middle of our CI/CD pipeline executions. Choose a new bucket name for these artifacts and create one using the following CLI command:
+
 aws s3 mb s3://mythmisfitartifactsbucket
+
 Next, this bucket needs a bucket policy to define permissions for the data stored within it. But unlike our website bucket that allowed access to anyone, only our CI/CD pipeline should have access to this bucket. We have provided the JSON file needed for this policy at ~/environment/aws-modern-application-workshop/module-2/aws-cli/artifacts-bucket-policy.json. Open this file, and inside you will need to replace several strings to include the ARNs that were created as part of the MythicalMysfitsCoreStack earlier, as well as your newly chosen bucket name for your CI/CD artifacts.
 Once you've modified and saved this file, execute the following command to grant access to this bucket to your CI/CD pipeline:
 aws s3api put-bucket-policy --bucket mythartifactsbucket --policy file://~/environment/aws-modern-application-workshop/module-2/aws-cli/artifacts-bucket-policy.json
